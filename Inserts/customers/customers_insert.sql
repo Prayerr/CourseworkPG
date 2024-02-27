@@ -1,0 +1,1 @@
+COPY customer (name, customer_phone) FROM '/customers.sql' DELIMITER ';' CSV; --ПУТЬ ДОДЕЛАТЬ

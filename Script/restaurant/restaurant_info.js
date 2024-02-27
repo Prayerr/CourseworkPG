@@ -1,0 +1,30 @@
+module.exports = {
+  name_restaurant: [
+    "Matryoshka Delight",
+    "Babushka's Kitchen",
+    "Moscow Munchies",
+    "Siberian Spice",
+    "Vodka Vittles",
+    "Borscht & Bites",
+    "Caviar Corner",
+    "Kremlin Kuisine",
+    "Red Square Bistro",
+    "Babushka's Table",
+    "Volga Vista",
+    "Ural Utopia",
+    "Stroganoff Station",
+    "Bear and Birch",
+    "Ruble Rendezvous",
+    "Blini Bliss",
+    "Kalinka Café",
+  ],
+
+  working_hours: [
+    "10:00 - 22:00",
+    "11:30 - 21:00",
+    "9:00 - 20:00",
+    "12:00 - 23:00",
+    "8:30 - 19:30",
+    "10:30 - 23:30",
+  ],
+};
