@@ -1,13 +1,18 @@
+CREATE DATABASE courseWork;
+
+\encoding UTF8 -- Кодировка
+
+-- CREATE EXTENSION IF NOT EXISTS "pgcrypto"; -- расширение для генерации UUID (УЖЕ НЕ НУЖНО)
+
 CREATE TABLE restaurant_info(
-  id_restaurant UUID DEFAULT gen_random_uuid() PRIMARY KEY UNIQUE,
+  id_restaurant UUID NOT NULL,
   name VARCHAR(64) NOT NULL,
-  opening_hours VARCHAR(12) NOT NULL,
-  restaurant_phone VARCHAR(24) NOT NULL UNIQUE,
-  CONSTRAINT valid_phone_format CHECK (restaurant_phone ~ '^\d{3}-\d{3}-\d{4}$' OR restaurant_phone ~ '^\d{3}-\d{3}-\d{2}-\d{2}$')
+  opening_hours VARCHAR(24) NOT NULL,
+  restaurant_phone VARCHAR(24) NOT NULL UNIQUE
 );
 
 CREATE TABLE "table"(
-  id_table UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  id_table UUID NOT NULL,
   id_restaurant UUID NOT NULL,
   capacity INTEGER NOT NULL DEFAULT 1 CHECK (capacity > 0),
   is_available boolean NOT NULL,

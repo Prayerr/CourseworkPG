@@ -1,0 +1,19 @@
+{
+  "name": "Course-work",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "main": "index.js",
+  "repository": "https://github.com/Prayerr/Course_Work_PG",
+  "author": "prayerr",
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^8.11.3",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1"
+  }
+}

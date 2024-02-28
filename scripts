@@ -1,3 +1,0 @@
-node Script/customer/generate_customers.js Запуск генерации юзеров
-
-node Script/restaurant/generate_restaurant.js Запуск генерации ресторанов
