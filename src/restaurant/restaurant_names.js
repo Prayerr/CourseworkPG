@@ -1,4 +1,4 @@
-export const name_restaurant = [
+const nameRestaurant = [
   "Matryoshka Delight",
   "Babushka Kitchen",
   "Moscow Munchies",
@@ -15,3 +15,5 @@ export const name_restaurant = [
   "Ruble Rendezvous",
   "Blini Bliss",
 ];
+
+export default nameRestaurant;

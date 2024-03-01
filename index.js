@@ -1,6 +1,12 @@
-import { generateRestaurantData } from "./src/restaurant/generate_restaurant.js";
-import { insertData } from "./src/insert.js";
+import nameRestaurant from "./src/restaurant/restaurant_names.js";
+import Restaurant from "./src/restaurant/generate_restaurant.js";
+import DataInserter from "./src/insert.js";
 
-const restaurantData = generateRestaurantData();
+const restaurantData = nameRestaurant.map((nameRestaurant) => {
+  const restaurant = new Restaurant(nameRestaurant);
+  restaurant.generateData();
+  return restaurant;
+});
 
-insertData(restaurantData);
+const dataInserter = new DataInserter();
+dataInserter.insertData(restaurantData);

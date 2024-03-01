@@ -9,7 +9,7 @@ class TableGenerator {
   }
 
   generateTableUUID() {
-    return uuid();
+    return uuid().slice(0, 10);
   }
 
   generateCapacity() {

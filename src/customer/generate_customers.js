@@ -13,13 +13,8 @@ function generateRandomName() {
   return faker.person.fullName();
 }
 
-function generateRandomEmail() {
-  return faker.internet.email();
-}
-
 const rows = [];
 for (let i = 0; i <= 15; i++) {
-  const email = generateRandomEmail();
   const phoneNumber = generateRandomPhoneNumber();
   const maleName = generateRandomName({ sex: "male" });
   const femaleName = generateRandomName({ sex: "female" });
