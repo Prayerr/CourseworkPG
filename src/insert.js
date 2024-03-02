@@ -1,11 +1,9 @@
 import pool from "./pool.js";
-import Restaurant from "./restaurant/generate_restaurant.js";
 
 class DataInserter {
-  constructor() {}
-
   async insertData(restaurantData) {
     const client = await pool.connect();
+
     try {
       await client.query("BEGIN");
 

@@ -1,9 +1,10 @@
 import { v4 as uuid } from "uuid";
 import { faker } from "@faker-js/faker";
+import ReservationGenerator from "../reservations/generate_reservations.js";
 import TableGenerator from "./generate_tables.js";
 import AddressGenerator from "./generate_address.js";
 
-class Restaurant {
+export default class Restaurant {
   constructor(name) {
     this.id = uuid();
     this.name = name;
@@ -11,6 +12,7 @@ class Restaurant {
     this.restaurantPhone = this.generateRandomPhoneNumber();
     this.tables = [];
     this.address = {};
+    this.reservations = [];
   }
 
   generateRandomPhoneNumber() {
@@ -43,6 +45,11 @@ class Restaurant {
     const addressGenerator = new AddressGenerator();
     this.address = addressGenerator.generateAddressData();
   }
-}
 
-export default Restaurant;
+  generateReservationData() {
+    const openingTime = parseInt(this.workingHours.split(":")[0]);
+    const reservationGenerator = new ReservationGenerator(openingTime);
+    this.reservations = reservationGenerator.generateReservations();
+    return this.reservations;
+  }
+}

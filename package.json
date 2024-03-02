@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "customers": "node src/customer/generate_customers.js"
   },
   "main": "index.js",
   "repository": "https://github.com/Prayerr/Course_Work_PG",

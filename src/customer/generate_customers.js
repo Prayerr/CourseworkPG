@@ -1,12 +1,13 @@
 import { faker } from "@faker-js/faker";
+import { v4 as uuid } from "uuid";
 import fs from "fs";
 
 function generateRandomPhoneNumber() {
-  let phoneNumber = "+7";
+  let customer_phone = "+7";
   for (let i = 0; i <= 9; i++) {
-    phoneNumber += Math.floor(Math.random() * 10);
+    customer_phone += Math.floor(Math.random() * 10);
   }
-  return phoneNumber;
+  return customer_phone;
 }
 
 function generateRandomName() {
@@ -14,18 +15,21 @@ function generateRandomName() {
 }
 
 const rows = [];
+
 for (let i = 0; i <= 15; i++) {
-  const phoneNumber = generateRandomPhoneNumber();
+  const customer_phone = generateRandomPhoneNumber();
+  const idFemale = uuid();
+  const idMale = uuid();
   const maleName = generateRandomName({ sex: "male" });
   const femaleName = generateRandomName({ sex: "female" });
 
   const maleEmail = `${maleName.replace(/\s+/g, ".")}@example.com`;
   const femaleEmail = `${femaleName.replace(/\s+/g, ".")}@example.com`;
 
-  rows.push(`${maleName},${phoneNumber},${maleEmail}`);
-  rows.push(`${femaleName},${phoneNumber},${femaleEmail}`);
+  rows.push(`${idMale},${maleName},${maleEmail},${customer_phone}`);
+  rows.push(`${idFemale},${femaleName},${femaleEmail},${customer_phone}`);
 }
 
-const csvContent = rows.join("\n");
+const csvContent = "id_customer,name,email,customer_phone\n" + rows.join("\n");
 
 fs.writeFileSync("customers.csv", csvContent, "utf8");
