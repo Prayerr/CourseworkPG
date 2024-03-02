@@ -1,12 +1,12 @@
 CREATE DATABASE courseWork;
 
-\encoding UTF8 -- Кодировка 
+-- \encoding UTF8 Кодировка 
 
--- truncate restaurant, restaurant_address, reservation, "table", customer; Экстренный сброс =)
+-- truncate restaurant, restaurant_address, reservation, "table", customer; сброс =)
 
 -- COPY customer(id_customer,name, email, customer_phone) FROM 'E:/Projects/coursework/customers.csv' DELIMITER ',' CSV HEADER; Копирование юзеров
 
--- CREATE EXTENSION IF NOT EXISTS "pgcrypto"; -- расширение для генерации UUID (УЖЕ НЕ НУЖНО)
+-- CREATE EXTENSION IF NOT EXISTS "pgcrypto"; расширение для генерации UUID (УЖЕ НЕ НУЖНО)
 
 CREATE TABLE restaurant(
   id_restaurant VARCHAR(64) PRIMARY KEY NOT NULL,
@@ -45,8 +45,8 @@ CREATE TABLE reservation(
   id_customer VARCHAR(64) NOT NULL,
   id_table VARCHAR(10) NOT NULL,
   description varchar(512),
-  start_time TIMESTAMP NOT NULL,
-  end_time TIMESTAMP NOT NULL,
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
   FOREIGN KEY (id_customer) REFERENCES customer (id_customer),
   FOREIGN KEY (id_table) REFERENCES "table" (id_table)
 );

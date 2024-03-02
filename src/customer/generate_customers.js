@@ -16,15 +16,15 @@ function generateRandomName() {
 
 const rows = [];
 
-for (let i = 0; i <= 15; i++) {
+for (let i = 0; i <= 30; i++) {
   const customer_phone = generateRandomPhoneNumber();
   const idFemale = uuid();
   const idMale = uuid();
   const maleName = generateRandomName({ sex: "male" });
   const femaleName = generateRandomName({ sex: "female" });
 
-  const maleEmail = `${maleName.replace(/\s+/g, ".")}@example.com`;
-  const femaleEmail = `${femaleName.replace(/\s+/g, ".")}@example.com`;
+  const maleEmail = faker.internet.email({ firstName: maleName });
+  const femaleEmail = faker.internet.email({ firstName: femaleName });
 
   rows.push(`${idMale},${maleName},${maleEmail},${customer_phone}`);
   rows.push(`${idFemale},${femaleName},${femaleEmail},${customer_phone}`);

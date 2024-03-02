@@ -1,6 +1,5 @@
 import { v4 as uuid } from "uuid";
 import { faker } from "@faker-js/faker";
-import ReservationGenerator from "../reservations/generate_reservations.js";
 import TableGenerator from "./generate_tables.js";
 import AddressGenerator from "./generate_address.js";
 
@@ -35,7 +34,7 @@ export default class Restaurant {
   }
 
   generateTables() {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 30; i++) {
       const table = new TableGenerator();
       this.tables.push(table);
     }
@@ -44,12 +43,5 @@ export default class Restaurant {
   generateAddress() {
     const addressGenerator = new AddressGenerator();
     this.address = addressGenerator.generateAddressData();
-  }
-
-  generateReservationData() {
-    const openingTime = parseInt(this.workingHours.split(":")[0]);
-    const reservationGenerator = new ReservationGenerator(openingTime);
-    this.reservations = reservationGenerator.generateReservations();
-    return this.reservations;
   }
 }
