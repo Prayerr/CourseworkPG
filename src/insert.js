@@ -61,7 +61,7 @@ class DataInserter {
   async insertRestaurant(client, restaurant) {
     const { id, name, workingHours, restaurantPhone } = restaurant;
     await client.query(
-      "INSERT INTO restaurant (id_restaurant, name, working_hours, restaurant_phone) VALUES ($1, $2, $3, $4)",
+      "INSERT INTO restaurant (id_restaurant, name, working_hours, restaurant_phone) VALUES ($1::UUID, $2, $3, $4)",
       [id, name, workingHours, restaurantPhone]
     );
   }
@@ -69,7 +69,7 @@ class DataInserter {
   async insertTables(client, restaurant) {
     for (const table of restaurant.tables) {
       await client.query(
-        'INSERT INTO "table" (id_table, id_restaurant, capacity, is_available) VALUES ($1, $2, $3, $4)',
+        'INSERT INTO "table" (id_table, id_restaurant, capacity, is_available) VALUES ($1, $2::UUID, $3, $4)',
         [table.id_table, restaurant.id, table.capacity, table.isAvailable]
       );
     }
@@ -78,7 +78,7 @@ class DataInserter {
   async insertAddress(client, restaurant) {
     const { id, address } = restaurant;
     await client.query(
-      "INSERT INTO restaurant_address (id_restaurant, country, state, city, street) VALUES ($1, $2, $3, $4, $5)",
+      "INSERT INTO restaurant_address (id_restaurant, country, state, city, street) VALUES ($1::UUID, $2, $3, $4, $5)",
       [id, address.country, address.state, address.city, address.street]
     );
   }
@@ -90,7 +90,7 @@ class DataInserter {
       const id_table = tableId[Math.floor(Math.random() * tableId.length)];
 
       await client.query(
-        "INSERT INTO reservation (id_reservation, id_customer, id_table, description, reservation_date, start_time, end_time) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+        "INSERT INTO reservation (id_reservation, id_customer, id_table, description, reservation_date, start_time, end_time) VALUES ($1::UUID, $2::UUID, $3::UUID, $4, $5, $6, $7)",
         [
           reservation.id_reservation,
           id_customer,
