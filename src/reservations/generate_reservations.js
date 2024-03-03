@@ -19,12 +19,19 @@ export default class ReservationGenerator {
         endHour
       );
       const endTime = this.generateRandomEndTimeReservation(startTime);
+      const reservationDate = faker.date
+        .between({
+          from: "2024-03-03",
+          to: "2024-10-10",
+        })
+        .toLocaleDateString();
 
       const reservation = {
         id_reservation: uuid(),
         id_customer: this.customerId,
         id_table: this.tableId,
         description: description,
+        reservationDate: reservationDate,
         start_time: startTime,
         end_time: endTime,
       };

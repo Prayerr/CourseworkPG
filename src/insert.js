@@ -90,12 +90,13 @@ class DataInserter {
       const id_table = tableId[Math.floor(Math.random() * tableId.length)];
 
       await client.query(
-        "INSERT INTO reservation (id_reservation, id_customer, id_table, description, start_time, end_time) VALUES ($1, $2, $3, $4, $5, $6)",
+        "INSERT INTO reservation (id_reservation, id_customer, id_table, description, reservation_date, start_time, end_time) VALUES ($1, $2, $3, $4, $5, $6, $7)",
         [
           reservation.id_reservation,
           id_customer,
           id_table,
           reservation.description,
+          reservation.reservationDate,
           reservation.start_time,
           reservation.end_time,
         ]

@@ -36,7 +36,7 @@ CREATE TABLE restaurant_address(
 CREATE TABLE customer(
   id_customer VARCHAR(64) PRIMARY KEY NOT NULL,
   name varchar(128) NOT NULL,
-  customer_phone varchar(64) NOT NULL,
+  customer_phone varchar(24) NOT NULL CHECK (LENGTH(customer_phone) <= 12),
   email varchar(64) UNIQUE
 );
 
@@ -44,7 +44,8 @@ CREATE TABLE reservation(
   id_reservation VARCHAR(64) PRIMARY KEY NOT NULL,
   id_customer VARCHAR(64) NOT NULL,
   id_table VARCHAR(10) NOT NULL,
-  description varchar(512),
+  description varchar(128),
+  reservation_date DATE NOT NULL,
   start_time TIME NOT NULL,
   end_time TIME NOT NULL,
   FOREIGN KEY (id_customer) REFERENCES customer (id_customer),
