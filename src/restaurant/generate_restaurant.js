@@ -1,17 +1,31 @@
 import { v4 as uuid } from "uuid";
-import { faker } from "@faker-js/faker";
-import TableGenerator from "./generate_tables.js";
-import AddressGenerator from "./generate_address.js";
+import { faker, th } from "@faker-js/faker";
+import generateRandomAddress from "./generate_address.js";
+import generateRandomWorkingHours from "./generate_working_hours.js";
+import nameRestaurant from "./restaurant_names.js";
+import SeatingGenerator from "./generate_seatings.js";
+import RestaurantDetailsGenerator from "./generate_details.js";
 
 export default class Restaurant {
-  constructor(name) {
-    this.id = uuid();
-    this.name = name;
-    this.workingHours = this.generateRandomWorkingHours();
+  constructor() {
+    const idWorkingHours = generateRandomWorkingHours().idWorkingHours;
+    const idDetails = new RestaurantDetailsGenerator().idDetails;
+    const idAddress = generateRandomAddress().idAddress;
+
+    this.idRestaurant = uuid();
+    this.idWorkingHours = idWorkingHours;
+    this.idDetails = idDetails;
+    this.idAddress = idAddress;
+    this.name = this.generateRandomRestaurantName();
     this.restaurantPhone = this.generateRandomPhoneNumber();
-    this.tables = [];
-    this.address = {};
-    this.reservations = [];
+    this.seating = SeatingGenerator.generateSeatingsForRestaurant(
+      this.idRestaurant
+    );
+    this.address = generateRandomAddress();
+  }
+
+  generateRandomRestaurantName() {
+    return faker.helpers.arrayElement(nameRestaurant);
   }
 
   generateRandomPhoneNumber() {
@@ -21,27 +35,8 @@ export default class Restaurant {
     }
     return phoneNumber;
   }
-
-  generateRandomWorkingHours() {
-    const openingTime = faker.number.int({ min: 6, max: 10 });
-    const closingTime = faker.number.int({ min: 18, max: 24 });
-    return `${openingTime}:00 - ${closingTime}:00`;
-  }
-
-  generateData() {
-    this.generateTables();
-    this.generateAddress();
-  }
-
-  generateTables() {
-    for (let i = 0; i < 30; i++) {
-      const table = new TableGenerator();
-      this.tables.push(table);
-    }
-  }
-
-  generateAddress() {
-    const addressGenerator = new AddressGenerator();
-    this.address = addressGenerator.generateAddressData();
-  }
 }
+
+const restaurant = new Restaurant();
+
+console.log(restaurant);

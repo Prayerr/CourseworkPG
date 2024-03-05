@@ -28,13 +28,13 @@ CREATE TABLE working_hours(
   closing_time TIME NOT NULL
 );
 
-CREATE TABLE cuisine (
+CREATE TABLE cuisine (  
   id_cuisine UUID PRIMARY KEY NOT NULL,
   cuisine_type cuisine_type NOT NULL
 );
 
 CREATE TABLE restaurant_details (
-  id_detail UUID PRIMARY KEY NOT NULL,
+  id_details UUID PRIMARY KEY NOT NULL,
   id_cuisine UUID NOT NULL,
   social_media_links JSONB,
   additional_info VARCHAR(512),
@@ -70,7 +70,7 @@ CREATE TABLE seating(
 
 CREATE TABLE customer(
   id_customer UUID PRIMARY KEY NOT NULL,
-  name varchar(128) NOT NULL,
+  name_customer varchar(128) NOT NULL,
   payment_type payment_type NOT NULL,
   customer_phone varchar(24) NOT NULL CHECK (LENGTH(customer_phone) <= 12),
   email varchar(64) UNIQUE

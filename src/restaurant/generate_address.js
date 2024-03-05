@@ -1,26 +1,13 @@
+import { v4 as uuid } from "uuid";
 import { faker } from "@faker-js/faker";
 
-export default class AddressGenerator {
-  generateRandomAddress() {
-    const street = faker.location.street();
-    const city = faker.location.city();
-    const country = faker.location.country();
-    let state = "";
+export default function generateRandomAddress() {
+  const idAddress = uuid();
+  const street = faker.location.street();
+  const city = faker.location.city();
+  const country = faker.location.country();
+  const state =
+    faker.number.int({ min: 0, max: 1 }) < 0.5 ? faker.location.state() : "";
 
-    if (Math.random() < 0.5) {
-      state = faker.location.state();
-    }
-
-    return { street, city, country, state };
-  }
-
-  generateAddressData() {
-    const address = this.generateRandomAddress();
-    return {
-      state: address.state,
-      city: address.city,
-      street: address.street,
-      country: address.country,
-    };
-  }
+  return { idAddress, street, city, country, state };
 }
