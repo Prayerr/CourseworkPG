@@ -1,8 +1,6 @@
 import { faker } from "@faker-js/faker";
 
 export default class AddressGenerator {
-  constructor() {}
-
   generateRandomAddress() {
     const street = faker.location.street();
     const city = faker.location.city();
