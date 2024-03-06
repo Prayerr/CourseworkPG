@@ -2,12 +2,15 @@ import { faker } from "@faker-js/faker";
 import { v4 as uuid } from "uuid";
 import fs from "fs";
 
+let customerPhone = "+7";
+
+const paymentType = ["credit_card", "paypal", "cash"];
+
 function generateRandomPhoneNumber() {
-  let customer_phone = "+7";
   for (let i = 0; i <= 9; i++) {
-    customer_phone += Math.floor(Math.random() * 10);
+    customerPhone += Math.floor(Math.random() * 10);
   }
-  return customer_phone;
+  return customerPhone;
 }
 
 function generateRandomName() {
@@ -16,8 +19,8 @@ function generateRandomName() {
 
 const rows = [];
 
-for (let i = 0; i <= 30; i++) {
-  const customer_phone = generateRandomPhoneNumber();
+for (let i = 0; i < 16; i++) {
+  const customerPhone = generateRandomPhoneNumber();
   const idFemale = uuid();
   const idMale = uuid();
   const maleName = generateRandomName({ sex: "male" });
@@ -26,8 +29,8 @@ for (let i = 0; i <= 30; i++) {
   const maleEmail = faker.internet.email({ firstName: maleName });
   const femaleEmail = faker.internet.email({ firstName: femaleName });
 
-  rows.push(`${idMale},${maleName},${maleEmail},${customer_phone}`);
-  rows.push(`${idFemale},${femaleName},${femaleEmail},${customer_phone}`);
+  rows.push(`${idMale},${maleName},${maleEmail},${customerPhone}`);
+  rows.push(`${idFemale},${femaleName},${femaleEmail},${customerPhone}`);
 }
 
 const csvContent = "id_customer,name,email,customer_phone\n" + rows.join("\n");

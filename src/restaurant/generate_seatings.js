@@ -14,7 +14,7 @@ export default class SeatingGenerator {
   constructor() {
     this.idSeating = this.generateSeatingUUID();
     this.capacity = this.generateCapacity();
-    this.isAvailable = this.generateStatus();
+    this.status = this.generateStatus();
   }
 
   generateSeatingUUID() {

@@ -6,17 +6,16 @@ export default class RestaurantDetailsGenerator {
     this.idDetails = uuid();
     this.idCuisine = cuisineId;
     this.links = this.generateSocialMediaLinks();
-    this.info = faker.lorem.lines({ min: 0, max: 3 });
+    this.linksJSON = JSON.stringify(this.links);
+    this.info = faker.lorem.lines({ min: 1, max: 2 });
   }
 
   generateSocialMediaLinks() {
     const socialMediaLinks = {};
-    const links = faker.number.int({ min: 0, max: 2 });
+    const links = faker.number.int({ min: 1, max: 3 });
 
     for (let i = 0; i < links; i++) {
-      socialMediaLinks[
-        faker.helpers.arrayElement(["media1", "media2", "media3"])
-      ] = faker.internet.url();
+      socialMediaLinks[`media${i + 1}`] = faker.internet.url();
     }
 
     return socialMediaLinks;

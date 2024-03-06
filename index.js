@@ -1,11 +1,18 @@
-import Restaurant from "./src/restaurant/generate_restaurant";
-import nameRestaurant from "./src/restaurant/restaurant_names";
+import Restaurant from "./src/restaurant/generate_restaurant.js";
+import insertRestaurant from "./src/insert.js";
 
-const restaurants = nameRestaurant.map((name) => {
-  const idWorkingHours = generateRandomWorkingHours();
-  const idDetails = generateRestaurantDetails();
-  const idAddress = generateRandomAddress();
-  return new Restaurant(idWorkingHours, idDetails, idAddress, name);
-});
+async function generateAndInsertRestaurants() {
+  const maxRestaurants = 3;
 
-console.log(restaurants);
+  try {
+    for (let i = 0; i < maxRestaurants; i++) {
+      const restaurant = Restaurant.generateRandomRestaurant();
+      await insertRestaurant(restaurant);
+      console.log(`Ресторан ${restaurant.name} занесен в базу данных.`);
+    }
+  } catch (error) {
+    console.error("Возникла ошибка", error);
+  }
+}
+
+generateAndInsertRestaurants();

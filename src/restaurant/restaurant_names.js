@@ -14,6 +14,16 @@ const nameRestaurant = [
   "Bear and Birch",
   "Ruble Rendezvous",
   "Blini Bliss",
+  "Blue Ocean Bistro",
+  "Sunset Cafe",
+  "Ocean View Eatery",
+  "Sunflower Kitchen",
+  "Silver Spoon Restaurant",
+  "Moonlight Terrace",
+  "Starlight Lounge",
+  "Tavern",
+  "Spice Avenue Kitchen",
+  "Urban Spice Cafe",
 ];
 
 export default nameRestaurant;

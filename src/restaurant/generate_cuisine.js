@@ -2,19 +2,22 @@ import { v4 as uuid } from "uuid";
 import { faker } from "@faker-js/faker";
 
 export default class CuisineGenerator {
+  static cuisineData = [
+    "Italian",
+    "French",
+    "Japanese",
+    "Russian",
+    "American",
+    "Derivative",
+  ];
+
+  constructor() {
+    this.idCuisine = uuid();
+  }
+
   generateRandomCuisine() {
-    const cuisineData = [
-      "Italian",
-      "French",
-      "Japanese",
-      "Russian",
-      "American",
-      "Derivative",
-    ];
+    const cuisine = faker.helpers.arrayElement(CuisineGenerator.cuisineData);
 
-    const idCuisine = uuid();
-    const cuisine = faker.helpers.arrayElement(cuisineData);
-
-    return { idCuisine, cuisine };
+    return { idCuisine: this.idCuisine, cuisine };
   }
 }

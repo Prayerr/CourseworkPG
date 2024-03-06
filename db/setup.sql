@@ -1,6 +1,7 @@
 CREATE DATABASE courseWorkPG;
 
--- truncate restaurant, restaurant_address, reservation, "table", customer; сброс =)
+-- Сброс
+TRUNCATE restaurant, restaurant_address, customer, customer_reviews, restaurant_details CASCADE;
 
 CREATE TABLE restaurant(
   id_restaurant UUID PRIMARY KEY NOT NULL,

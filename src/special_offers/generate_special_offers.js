@@ -2,15 +2,16 @@ import { v4 as uuid } from "uuid";
 import { faker } from "@faker-js/faker";
 import specialOffersName from "./special_offers.js";
 
-export default class RestaurantSpecialOffers {
+export default class RestaurantSpecialOffersGenerator {
   constructor(idRestaurant) {
     this.idOffer = uuid();
     this.idRestaurant = idRestaurant;
-    this.offerName = generateRandomOffer();
     this.description = faker.lorem.lines({ min: 1, max: 2 });
-    this.startOffer = generateRandomStartOffer();
-    this.endOffer = generateRandomEndOffer();
+    this.offerName = this.generateRandomOffer();
+    this.startOffer = this.generateRandomStartOffer();
+    this.endOffer = this.generateRandomEndOffer();
   }
+
   generateRandomOffer() {
     return faker.helpers.arrayElement(specialOffersName);
   }

@@ -1,108 +1,99 @@
 import pool from "./pool.js";
 
-class DataInserter {
-  async fetchId() {
-    const client = await pool.connect();
-    try {
-      const result = await client.query(`
-            SELECT id_table FROM "table";
-            SELECT id_customer FROM customer;
-        `);
+export default async function insertRestaurant(restaurant) {
+  const client = await pool.connect();
 
-      const tableId = result[0].rows.map((row) => row.id_table);
-      const customerId = result[1].rows.map((row) => row.id_customer);
+  try {
+    await client.query("BEGIN");
 
-      return { tableId, customerId };
-    } finally {
-      client.release();
-    }
-  }
-
-  async insertData(restaurantData) {
-    const client = await pool.connect();
-
-    const customerCsvPath = "E:/Projects/coursework/customers.csv";
-    const customerCopyQuery = `COPY customer(id_customer, name, email, customer_phone) FROM '${customerCsvPath}' DELIMITER ',' CSV HEADER`;
-
-    await client.query(customerCopyQuery);
-
-    try {
-      await client.query("BEGIN");
-
-      for (const restaurant of restaurantData) {
-        await this.insertRestaurant(client, restaurant);
-        await this.insertTables(client, restaurant);
-        await this.insertAddress(client, restaurant);
-      }
-
-      await client.query("COMMIT");
-      console.log("Данные о ресторанах вставлены в базу данных");
-
-      const { tableId, customerId } = await this.fetchId();
-
-      for (const restaurant of restaurantData) {
-        await this.insertReservations(client, restaurant, {
-          tableId,
-          customerId,
-        });
-      }
-
-      await client.query("COMMIT");
-      console.log("Данные о бронированиях вставлены в базу данных");
-    } catch (error) {
-      await client.query("ROLLBACK");
-      console.error("Возникли ошибки с базой данных", error);
-    } finally {
-      client.release();
-      console.log("Соединение с базой данных закрыто");
-    }
-  }
-
-  async insertRestaurant(client, restaurant) {
-    const { id, name, workingHours, restaurantPhone } = restaurant;
     await client.query(
-      "INSERT INTO restaurant (id_restaurant, name, working_hours, restaurant_phone) VALUES ($1::UUID, $2, $3, $4)",
-      [id, name, workingHours, restaurantPhone]
+      "INSERT INTO working_hours (id_working_hours, opening_time, closing_time) VALUES ($1, $2, $3)",
+      [
+        restaurant.workingHours.idWorkingHours,
+        restaurant.workingHours.openingTime,
+        restaurant.workingHours.closingTime,
+      ]
     );
-  }
 
-  async insertTables(client, restaurant) {
-    for (const table of restaurant.tables) {
-      await client.query(
-        'INSERT INTO "table" (id_table, id_restaurant, capacity, is_available) VALUES ($1, $2::UUID, $3, $4)',
-        [table.id_table, restaurant.id, table.capacity, table.isAvailable]
-      );
-    }
-  }
-
-  async insertAddress(client, restaurant) {
-    const { id, address } = restaurant;
     await client.query(
-      "INSERT INTO restaurant_address (id_restaurant, country, state, city, street) VALUES ($1::UUID, $2, $3, $4, $5)",
-      [id, address.country, address.state, address.city, address.street]
+      "INSERT INTO cuisine (id_cuisine, cuisine_type) VALUES ($1, $2)",
+      [restaurant.cuisine.idCuisine, restaurant.cuisine.cuisine]
     );
-  }
 
-  async insertReservations(client, restaurant, { tableId, customerId }) {
-    for (const reservation of restaurant.reservations) {
-      const id_customer =
-        customerId[Math.floor(Math.random() * customerId.length)];
-      const id_table = tableId[Math.floor(Math.random() * tableId.length)];
+    await client.query(
+      "INSERT INTO restaurant_address (id_address, country, state, city, street) VALUES ($1, $2, $3, $4, $5)",
+      [
+        restaurant.address.idAddress,
+        restaurant.address.country,
+        restaurant.address.state,
+        restaurant.address.city,
+        restaurant.address.street,
+      ]
+    );
 
-      await client.query(
-        "INSERT INTO reservation (id_reservation, id_customer, id_table, description, reservation_date, start_time, end_time) VALUES ($1::UUID, $2::UUID, $3::UUID, $4, $5, $6, $7)",
-        [
-          reservation.id_reservation,
-          id_customer,
-          id_table,
-          reservation.description,
-          reservation.reservationDate,
-          reservation.start_time,
-          reservation.end_time,
-        ]
-      );
-    }
+    await client.query(
+      "INSERT INTO restaurant_details (id_details, id_cuisine, social_media_links, additional_info) VALUES ($1, $2, $3, $4)",
+      [
+        restaurant.details.idDetails,
+        restaurant.cuisine.idCuisine,
+        restaurant.details.linksJSON,
+        restaurant.details.info,
+      ]
+    );
+
+    await client.query(
+      "INSERT INTO restaurant (id_restaurant, id_working_hours, id_details, id_address, name, restaurant_phone) VALUES ($1, $2, $3, $4, $5, $6)",
+      [
+        restaurant.id,
+        restaurant.workingHours.idWorkingHours,
+        restaurant.details.idDetails,
+        restaurant.address.idAddress,
+        restaurant.name,
+        restaurant.phone,
+      ]
+    );
+
+    await client.query(
+      "INSERT INTO restaurant_special_offers (id_offer, id_restaurant, offer_name, description, start_offer, end_offer) VALUES ($1, $2, $3, $4, $5, $6)",
+      [
+        restaurant.specialOffers.idOffer,
+        restaurant.id,
+        restaurant.specialOffers.offerName,
+        restaurant.specialOffers.description,
+        restaurant.specialOffers.startOffer,
+        restaurant.specialOffers.endOffer,
+      ]
+    );
+
+    await Promise.all(
+      restaurant.staff.map(async (staffMember) => {
+        await client.query(
+          "INSERT INTO restaurant_staff (id_staff, id_restaurant, name_staff, position, contact_number) VALUES ($1, $2, $3, $4, $5)",
+          [
+            staffMember.staffId,
+            restaurant.id,
+            staffMember.staffName,
+            staffMember.staffPosition,
+            staffMember.contactNumber,
+          ]
+        );
+      })
+    );
+
+    await Promise.all(
+      restaurant.seating.map((seat) => {
+        return client.query(
+          "INSERT INTO seating (id_seating, id_restaurant, seating_status, capacity) VALUES ($1, $2, $3, $4)",
+          [seat.idSeating, restaurant.id, seat.status, seat.capacity]
+        );
+      })
+    );
+
+    await client.query("COMMIT");
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
   }
 }
-
-export default DataInserter;

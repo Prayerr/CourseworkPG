@@ -6,9 +6,13 @@ INSERT INTO working_hours (id_working_hours, opening_time, closing_time) VALUES 
 
 INSERT INTO cuisine (id_cuisine, cuisine_type) VALUES ($1, $2);
 
+INSERT INTO restaurant_special_offers (id_offer, id_restaurant, offer_name, description, start_offer, end_offer) VALUES ($1, $2, $3, $4, $5, $6);
+
 INSERT INTO restaurant_details (id_details, id_cuisine, social_media_links, additional_info) VALUES ($1, $2, $3, $4);
 
 INSERT INTO seating (id_seating, id_restaurant, seating_status, capacity) VALUES ($1, $2, $3, $4);
+
+INSERT INTO staff (id_staff, id_restaurant, name_staff, position, contact_number) VALUES ($1, $2, $3, $4, $5);
 
 
 
