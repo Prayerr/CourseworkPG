@@ -6,10 +6,14 @@ export default class RestaurantSpecialOffersGenerator {
   constructor(idRestaurant) {
     this.idOffer = uuid();
     this.idRestaurant = idRestaurant;
-    this.description = faker.lorem.lines({ min: 1, max: 2 });
+    this.description = this.generateRandomDescription();
     this.offerName = this.generateRandomOffer();
     this.startOffer = this.generateRandomStartOffer();
     this.endOffer = this.generateRandomEndOffer();
+  }
+
+  generateRandomDescription() {
+    return faker.lorem.lines({ min: 1, max: 2 });
   }
 
   generateRandomOffer() {

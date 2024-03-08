@@ -14,5 +14,8 @@ INSERT INTO seating (id_seating, id_restaurant, seating_status, capacity) VALUES
 
 INSERT INTO staff (id_staff, id_restaurant, name_staff, position, contact_number) VALUES ($1, $2, $3, $4, $5);
 
+-- Не связанное с рестораном
 
+INSERT INTO customer_reviews (id_review, id_customer, id_restaurant, rating, review_text) VALUES ($1, $2, $3, $4, $5);
 
+INSERT INTO reservations (id_reservation, id_customer, id_seating, reservation_status, clarification, reservation_date, start_time, end_time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);

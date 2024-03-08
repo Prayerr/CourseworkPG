@@ -1,48 +1,39 @@
 import { faker } from "@faker-js/faker";
 import { v4 as uuid } from "uuid";
-import descriptions from "./descriptions.js";
+import { clarification, reservationStatus } from "./reservation_status.js";
 
 export default class ReservationGenerator {
-  constructor(tableId, customerId) {
-    this.tableId = tableId;
-    this.customerId = customerId;
+  constructor(idCustomer, idSeating) {
+    this.idReservation = uuid();
+    this.idCustomer = idCustomer;
+    this.idSeating = idSeating;
+    this.reservationStatus = this.generateRandomReservationStatus();
+    this.clarification = this.generateRandomClarification();
+    this.reservationDate = this.generateRandomReservationDate();
+    this.startTime = this.generateRandomStartTimeReservation();
+    this.endTime = this.generateRandomEndTimeReservation(this.startTime);
   }
 
-  generateReservations(startHour, endHour) {
-    const reservations = [];
-    const maxReservations = 1;
+  generateRandomClarification() {
+    return faker.helpers.arrayElement(clarification);
+  }
 
-    for (let i = 0; i < maxReservations; i++) {
-      const description = this.generateRandomDescription();
-      const startTime = this.generateRandomStartTimeReservation(
-        startHour,
-        endHour
-      );
-      const endTime = this.generateRandomEndTimeReservation(startTime);
-      const reservationDate = faker.date
-        .between({
-          from: "2024-03-03",
-          to: "2024-10-10",
-        })
-        .toLocaleDateString();
+  generateRandomReservationStatus() {
+    return faker.helpers.arrayElement(reservationStatus);
+  }
 
-      const reservation = {
-        id_reservation: uuid(),
-        id_customer: this.customerId,
-        id_table: this.tableId,
-        description: description,
-        reservationDate: reservationDate,
-        start_time: startTime,
-        end_time: endTime,
-      };
+  generateRandomReservationDate() {
+    const currentDate = new Date();
+    const randomDays = faker.number.int({ min: -7, max: 7 });
+    const reservationDate = new Date(currentDate);
 
-      reservations.push(reservation);
-    }
-    return reservations;
+    reservationDate.setDate(currentDate.getDate() + randomDays);
+
+    return reservationDate;
   }
 
   generateRandomStartTimeReservation() {
-    const hours = faker.number.int({ min: 10, max: 18 });
+    const hours = faker.number.int({ min: 10, max: 17 });
     const minutes = faker.number.int({ min: 0, max: 59 });
     return `${hours.toString().padStart(2, "0")}:${minutes
       .toString()
@@ -50,15 +41,13 @@ export default class ReservationGenerator {
   }
 
   generateRandomEndTimeReservation(startTime) {
-    const [hours, minutes] = startTime.split(":").map(Number);
+    const [startHours, startMinutes] = startTime.split(":").map(Number);
     const durationHours = faker.number.int({ min: 1, max: 2 });
-    const endHours = (hours + durationHours) % 24;
+    let endHours = startHours + durationHours;
+    if (endHours >= 18) endHours = 18;
+    const minutes = startMinutes;
     return `${endHours.toString().padStart(2, "0")}:${minutes
       .toString()
       .padStart(2, "0")}`;
-  }
-
-  generateRandomDescription() {
-    return descriptions[Math.floor(Math.random() * descriptions.length)];
   }
 }

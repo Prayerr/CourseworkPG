@@ -1,7 +1,10 @@
 CREATE DATABASE courseWorkPG;
 
 -- Сброс
-TRUNCATE restaurant, restaurant_address, customer, customer_reviews, restaurant_details CASCADE;
+TRUNCATE restaurant, restaurant_address, customer, customer_reviews, restaurant_details, working_hours, cuisine CASCADE;
+
+-- COPY FROM 
+COPY customer(id_customer, name_customer, email, customer_phone, payment_type) FROM 'E:/Projects/coursework/customers.csv' DELIMITER ',' CSV HEADER
 
 CREATE TABLE restaurant(
   id_restaurant UUID PRIMARY KEY NOT NULL,

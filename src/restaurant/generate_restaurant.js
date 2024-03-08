@@ -62,6 +62,3 @@ export default class Restaurant {
     );
   }
 }
-
-const restaurant = Restaurant.generateRandomRestaurant();
-console.log(restaurant);

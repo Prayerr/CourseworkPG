@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 export default class SeatingGenerator {
   static generateSeatingsForRestaurant(restaurantId) {
     const seatings = [];
+
     for (let i = 0; i < 15; i++) {
       const seating = new SeatingGenerator(restaurantId);
       seatings.push(seating);

@@ -1,4 +1,4 @@
-const descriptions = [
+export const clarification = [
   "Birthday party",
   "Business meeting",
   "Family dinner",
@@ -7,4 +7,4 @@ const descriptions = [
   "Date night",
 ];
 
-export default descriptions;
+export const reservationStatus = ["pending", "cancelled", "completed"];

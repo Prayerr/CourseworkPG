@@ -2,37 +2,52 @@ import { faker } from "@faker-js/faker";
 import { v4 as uuid } from "uuid";
 import fs from "fs";
 
-let customerPhone = "+7";
+class CustomerGenerator {
+  static paymentType = ["credit_card", "paypal", "cash"];
 
-const paymentType = ["credit_card", "paypal", "cash"];
-
-function generateRandomPhoneNumber() {
-  for (let i = 0; i <= 9; i++) {
-    customerPhone += Math.floor(Math.random() * 10);
+  static generateRandomPhoneNumber() {
+    let customerPhone = "+7";
+    for (let i = 0; i < 10; i++) {
+      customerPhone += Math.floor(Math.random() * 10);
+    }
+    return customerPhone;
   }
-  return customerPhone;
-}
 
-function generateRandomName() {
-  return faker.person.fullName();
+  static generateRandomCustomer() {
+    const idCustomer = uuid();
+    const customerPhone = this.generateRandomPhoneNumber();
+    const paymentType = faker.helpers.arrayElement(this.paymentType);
+
+    const firstNameCustomer = faker.person.firstName();
+    const lastNameCustomer = faker.person.lastName();
+    const fullNameCustomer = `${firstNameCustomer} ${lastNameCustomer}`;
+
+    const customerEmail = faker.internet.email({
+      firstName: firstNameCustomer,
+      lastName: lastNameCustomer,
+    });
+
+    return {
+      idCustomer,
+      fullNameCustomer,
+      customerEmail,
+      customerPhone,
+      paymentType,
+    };
+  }
 }
 
 const rows = [];
 
-for (let i = 0; i < 16; i++) {
-  const customerPhone = generateRandomPhoneNumber();
-  const idFemale = uuid();
-  const idMale = uuid();
-  const maleName = generateRandomName({ sex: "male" });
-  const femaleName = generateRandomName({ sex: "female" });
-
-  const maleEmail = faker.internet.email({ firstName: maleName });
-  const femaleEmail = faker.internet.email({ firstName: femaleName });
-
-  rows.push(`${idMale},${maleName},${maleEmail},${customerPhone}`);
-  rows.push(`${idFemale},${femaleName},${femaleEmail},${customerPhone}`);
+for (let i = 0; i < 40; i++) {
+  const customer = CustomerGenerator.generateRandomCustomer();
+  rows.push(
+    `${customer.idCustomer},${customer.fullNameCustomer},${customer.customerEmail},${customer.customerPhone},${customer.paymentType}`
+  );
 }
 
-const csvContent = "id_customer,name,email,customer_phone\n" + rows.join("\n");
+const csvContent =
+  "id_customer,name_customer,email,customer_phone,payment_type\n" +
+  rows.join("\n");
 
 fs.writeFileSync("customers.csv", csvContent, "utf8");
