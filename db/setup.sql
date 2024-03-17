@@ -3,13 +3,16 @@ CREATE DATABASE courseWorkPG;
 -- Сброс
 TRUNCATE restaurant, restaurant_address, customer, customer_reviews, restaurant_details, working_hours, cuisine CASCADE;
 
+-- Исправление кодировки
+psql \! chcp 1251
+
 -- COPY FROM 
 COPY customer(id_customer, name_customer, email, customer_phone, payment_type) FROM 'E:/Projects/coursework/customers.csv' DELIMITER ',' CSV HEADER
 
 CREATE TABLE restaurant(
   id_restaurant UUID PRIMARY KEY NOT NULL,
   id_working_hours UUID NOT NULL,
-  id_detail UUID NOT NULL,
+  id_details UUID NOT NULL,
   id_address UUID NOT NULL,
   name VARCHAR(64) NOT NULL,
   restaurant_phone VARCHAR(24) NOT NULL UNIQUE,
@@ -20,10 +23,10 @@ CREATE TABLE restaurant(
 
 CREATE TABLE restaurant_address(
   id_address UUID PRIMARY KEY NOT NULL,
-  country varchar(128) NOT NULL,
-  state varchar(128),
-  city varchar(128) NOT NULL,
-  street varchar(128) NOT NULL
+  country VARCHAR(128) NOT NULL,
+  state VARCHAR(128),
+  city VARCHAR(128) NOT NULL,
+  street VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE working_hours(
