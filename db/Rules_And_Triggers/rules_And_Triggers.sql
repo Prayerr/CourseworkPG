@@ -34,7 +34,7 @@ EXECUTE FUNCTION update_review();
 CREATE FUNCTION validate_working_hours()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.closing_time < NEW.opening_time THEN+
+    IF NEW.closing_time < NEW.opening_time THEN
         RAISE EXCEPTION 'Время закрытия работы ресторана не может быть раньше чем начало работы ресторана';
     END IF;
     RETURN NEW;
