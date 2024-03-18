@@ -1,1 +1,1 @@
-COPY restaurant FROM 'E:/Projects/coursework/restaurant.csv' DELIMITER ',' CSV HEADER;
+COPY restaurant TO '/path/to/restaurant.csv' DELIMITER ',' CSV HEADER;
