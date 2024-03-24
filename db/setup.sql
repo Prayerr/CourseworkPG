@@ -3,6 +3,15 @@ CREATE DATABASE courseWorkPG;
 -- Сброс
 TRUNCATE restaurant, restaurant_address, customer, customer_reviews, restaurant_details, working_hours, cuisine CASCADE;
 
+-- Подключиться как админ
+\c courseworkpg admin1
+
+-- Подключиться как менеджер
+\c courseworkpg manager1
+
+-- Подключиться как клиент
+\c courseworkpg client1
+
 -- Исправление кодировки
 psql \! chcp 1251
 
