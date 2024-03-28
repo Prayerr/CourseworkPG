@@ -39,7 +39,7 @@ class CustomerGenerator {
 
 const rows = [];
 
-for (let i = 0; i < 40; i++) {
+for (let i = 0; i < 720; i++) {
   const customer = CustomerGenerator.generateRandomCustomer();
   rows.push(
     `${customer.idCustomer},${customer.fullNameCustomer},${customer.customerEmail},${customer.customerPhone},${customer.paymentType}`

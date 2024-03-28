@@ -9,8 +9,8 @@ import {
 } from "./src/insert.js";
 
 async function insertData() {
-  const maxRestaurants = 3;
-  const reservationsPerRestaurant = 5;
+  const maxRestaurants = 25;
+  const reservationsPerRestaurant = 21;
 
   try {
     await insertCustomers();
